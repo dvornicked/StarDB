@@ -1,0 +1,26 @@
+.header {
+    margin-top: 0.5rem;
+    padding-left: 10px;
+}
+
+.header li {
+    list-style: none;
+    padding: 0.5rem 1rem;
+    background-repeat: 3px;
+}
+
+.header li:hover {
+    background-color: #444;
+}
+
+.header a {
+    text-decoration: none;
+}
+
+.header h3 a {
+    color: white;
+}
+
+.header h3 a:hover {
+    color: #00bc8c;
+}
