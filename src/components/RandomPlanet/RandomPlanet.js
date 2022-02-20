@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 import SwapiService from '../../services/SwapiService'
 import ErrorIndicator from '../ErrorIndicator'
@@ -16,9 +17,24 @@ export default class RandomPlanet extends Component {
         error: false
     }
 
+    static defaultProps = {
+        updateInterval: 10000
+    }
+
+    static propTypes = {
+        // updateInterval: (props, propName, componentName) => {
+        //     const value = props[propName]
+
+        //     if (typeof value === 'number' && !isNaN(value)) return null
+        //     return new TypeError(`${componentName}: ${propName} must be number`)
+        // }
+        updateInterval: PropTypes.number
+    }
+
     componentDidMount() {
+        const { updateInterval } = this.props
         this.updatePlanet()
-        this.interval = setInterval(this.updatePlanet, 5000)
+        this.interval = setInterval(this.updatePlanet, updateInterval)
     }
 
     componentWillUnmount() {
