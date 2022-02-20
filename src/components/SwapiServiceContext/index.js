@@ -1,2 +1,5 @@
-import { SwapiServiceProvider, SwapiServiceConsumer } from './SwapiServiceContext'
+import {
+  SwapiServiceProvider,
+  SwapiServiceConsumer
+} from './SwapiServiceContext'
 export { SwapiServiceProvider, SwapiServiceConsumer }

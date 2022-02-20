@@ -14,34 +14,34 @@ import PlanetPage from '../Pages/PlanetsPage'
 import StarshipPage from '../Pages/StarshipPage'
 
 export default class App extends Component {
+  state = {
+    swapiService: new DummySwapiService()
+  }
 
-    state = {
-        swapiService: new DummySwapiService()
-    }
+  onServiceChange = () => {
+    this.setState(({ swapiService }) => {
+      const Service =
+        swapiService instanceof SwapiService ? DummySwapiService : SwapiService
 
-    onServiceChange = () => {
-        this.setState(({ swapiService}) => {
-            const Service = swapiService instanceof SwapiService ? DummySwapiService : SwapiService
+      return {
+        swapiService: new Service()
+      }
+    })
+  }
 
-            return {
-                swapiService: new Service()
-            }
-        })
-    }
-
-    render() {
-        return (
-            <ErrorBoundry>
-                <SwapiServiceProvider value={this.state.swapiService}>
-                    <div className='container'>
-                        <Header onServiceChange={this.onServiceChange}/>
-                        <RandomPlanet />
-                        <PeoplePage />
-                        <PlanetPage />
-                        <StarshipPage />
-                    </div>
-                </SwapiServiceProvider>
-            </ErrorBoundry> 
-        )
-    }
+  render() {
+    return (
+      <ErrorBoundry>
+        <SwapiServiceProvider value={this.state.swapiService}>
+          <div className="container">
+            <Header onServiceChange={this.onServiceChange} />
+            <RandomPlanet />
+            <PeoplePage />
+            <PlanetPage />
+            <StarshipPage />
+          </div>
+        </SwapiServiceProvider>
+      </ErrorBoundry>
+    )
+  }
 }
