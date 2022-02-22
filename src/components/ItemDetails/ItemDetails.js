@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import Spinner from '../Spinner'
 
 import './ItemDetails.css'
@@ -14,59 +15,47 @@ const Record = ({ item, field, label }) => {
 
 export { Record }
 
-export default class ItemDetails extends Component {
-  state = {
-    item: null,
-    image: null,
-    loading: false
-  }
+const ItemDetails = props => {
+  const [item, setItem] = useState(null)
+  const [image, setImage] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const { id } = useParams(':id')
+  console.log(props)
 
-  componentDidMount() {
-    this.updateItem()
-  }
-
-  updateItem() {
-    const { itemId, getData, getImageUrl } = this.props
+  useEffect(() => {
+    const { itemId = id, getData, getImageUrl } = props
     if (!itemId) return
-    this.setState({ loading: true })
-    getData(itemId).then(item =>
-      this.setState({ item, loading: false, image: getImageUrl(item) })
+    setLoading(true)
+    getData(itemId).then(item =>{
+      setItem(item)
+      setLoading(false)
+      setImage(getImageUrl(item))
+    }
     )
-  }
+  }, [ props ])
 
-  componentDidUpdate(prevProps) {
-    if (
-      this.props.itemId !== prevProps.itemId ||
-      this.props.getData !== prevProps.getData ||
-      this.props.getImageUrl !== prevProps.getImageUrl
-    )
-      this.updateItem()
-  }
-
-  render() {
-    const { item, loading } = this.state
     if (loading)
       return (
         <div className="item-details card">
           <Spinner />
         </div>
       )
+      if (!item) return <span>Select a item from a list</span>
+      const { name } = item
 
-    if (!item) return <span>Select a item from a list</span>
-    const { name } = item
-
-    return (
-      <div className="item-details card">
-        <img className="item-image" src={this.state.image} alt="Item" />
-        <div className="card-body">
-          <h4>{name}</h4>
-          <ul className="list-group list-group-flush">
-            {React.Children.map(this.props.children, child => {
-              return React.cloneElement(child, { item })
-            })}
-          </ul>
+      return (
+        <div className="item-details card">
+          <img className="item-image" src={image} alt="Item" />
+          <div className="card-body">
+            <h4>{name}</h4>
+            <ul className="list-group list-group-flush">
+              {React.Children.map(props.children, child => {
+                return React.cloneElement(child, { item })
+              })}
+            </ul>
+          </div>
         </div>
-      </div>
-    )
-  }
+      )
 }
+
+export default ItemDetails

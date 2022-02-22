@@ -4,6 +4,7 @@ import ItemDetails, { Record } from '../ItemDetails'
 import { withSwapiService } from '../HocHelpers'
 
 const StarshipDetails = props => {
+  
   return (
     <ItemDetails {...props}>
       <Record field="model" label="Model" />
