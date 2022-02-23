@@ -20,7 +20,6 @@ const ItemDetails = props => {
   const [image, setImage] = useState(null)
   const [loading, setLoading] = useState(false)
   const { id } = useParams(':id')
-  console.log(props)
 
   useEffect(() => {
     const { itemId = id, getData, getImageUrl } = props
@@ -32,7 +31,7 @@ const ItemDetails = props => {
       setImage(getImageUrl(item))
     }
     )
-  }, [ props ])
+  }, [ id, props ])
 
     if (loading)
       return (

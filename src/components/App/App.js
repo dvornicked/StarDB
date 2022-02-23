@@ -11,14 +11,19 @@ import DummySwapiService from '../../services/DummySwapiService'
 import { SwapiServiceProvider } from '../SwapiServiceContext'
 
 import './App.css'
-import { PeoplePage } from '../Pages'
-import PlanetPage from '../Pages/PlanetsPage'
-import StarshipPage from '../Pages/StarshipPage'
-import { StarshipDetails } from '../SWComponents'
+import { PeoplePage, PlanetsPage, StarshipPage, LoginPage, SecretPage } from '../Pages'
+import { PersonDetails, PlanetDetails, StarshipDetails } from '../SWComponents'
 
 export default class App extends Component {
   state = {
-    swapiService: new SwapiService()
+    swapiService: new SwapiService(),
+    isLoggedIn: false
+  }
+
+  onLogin = () => {
+    this.setState({
+      isLoggedIn: true
+    })
   }
 
   onServiceChange = () => {
@@ -33,6 +38,7 @@ export default class App extends Component {
   }
 
   render() {
+    const { isLoggedIn } = this.state
     return (
       <ErrorBoundry>
         <SwapiServiceProvider value={this.state.swapiService}>
@@ -43,9 +49,14 @@ export default class App extends Component {
               <Routes>
                 <Route path="/" element={<h2 className='my-3'>Welcome to StarDB</h2>} />
                 <Route path="/people" element={<PeoplePage />} />
-                <Route path="/planets" element={<PlanetPage />} />
+                <Route path="/planets" element={<PlanetsPage />} />
                 <Route path="/starships" element={<StarshipPage />} />
+                <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} onLogin={this.onLogin} />} />
+                <Route path="/secret" element={<SecretPage isLoggedIn={isLoggedIn} />} />
+                <Route path="/people/:id" element={<PersonDetails />} />
+                <Route path="/planets/:id" element={<PlanetDetails />} />
                 <Route path="/starships/:id" element={<StarshipDetails/>} />
+                <Route path='*'  element={<h2 className='text-center'>Page not found</h2>}/>
               </Routes>
             </div>
           </Router>
